@@ -1,3 +1,7 @@
+// The carousel, modals, and anything else that uses Bootstrap will require that code to be included
+// Any changes that we make to our script.js file will carry over to new bundles whenever we rerun npm run build. So let's go ahead and run the build.
+require("bootstrap");
+
 $(document).ready(function() {
   function createEl(htmlString, attrs, ...children) {
     if (typeof htmlString !== "string") {
