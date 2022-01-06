@@ -1,9 +1,10 @@
 const path = require("path");
 const webpack = require("webpack");
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const WebpackPwaManifest = require("webpack-pwa-manifest");
 
 // webpack will next take the entry point we have provided, bundle that code, and output that bundled code to a folder called 'dist'
-module.exports = {
+const config = {
       devServer: {
         static: {
           directory: __dirname
@@ -52,7 +53,24 @@ module.exports = {
         }),
         new BundleAnalyzerPlugin({
           analyzerMode: "static", // "static" generates a report output to an HTML file in the dist folder
+        }),
+        new WebpackPwaManifest({
+          name: "Food Event",
+          short_name: "Foodies",
+          description: "An app that allows you to view upcoming food events.",
+          start_url: "../index.html",
+          background_color: "#01579b",
+          theme_color: "#ffffff",
+          fingerprints: false, // Fingerprints tell webpack whether or not it should generate unique fingerprints so that each time a new manifest is generated
+          inject: false, // determines whether the link to the manifest.json is added to the HTML. Because we are not using fingerprints, we can also set inject to be false
+          icons: [{
+            src: path.resolve("assets/img/icons/icon-512x512.png"),
+            sizes: [96, 128, 192, 256, 384, 512],
+            destination: path.join("assets", "icons")
+          }]
         })
       ],
       mode: 'development' // default mode is 'production'
 };
+
+module.exports = config;
